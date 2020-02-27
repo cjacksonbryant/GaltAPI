@@ -1,7 +1,7 @@
 using System.Web.Http;
 using System.Web.Mvc;
 
-namespace GaltAPI.Areas.HelpPage
+namespace companyAPI.Areas.HelpPage
 {
     public class HelpPageAreaRegistration : AreaRegistration
     {

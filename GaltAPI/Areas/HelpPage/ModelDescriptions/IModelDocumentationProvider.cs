@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace GaltAPI.Areas.HelpPage.ModelDescriptions
+namespace companyAPI.Areas.HelpPage.ModelDescriptions
 {
     public interface IModelDocumentationProvider
     {

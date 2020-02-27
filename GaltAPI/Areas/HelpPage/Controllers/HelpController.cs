@@ -1,10 +1,10 @@
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
-using GaltAPI.Areas.HelpPage.ModelDescriptions;
-using GaltAPI.Areas.HelpPage.Models;
+using companyAPI.Areas.HelpPage.ModelDescriptions;
+using companyAPI.Areas.HelpPage.Models;
 
-namespace GaltAPI.Areas.HelpPage.Controllers
+namespace companyAPI.Areas.HelpPage.Controllers
 {
     /// <summary>
     /// The controller that will handle requests for the help page.

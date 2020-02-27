@@ -1,4 +1,4 @@
-namespace GaltAPI.Areas.HelpPage.ModelDescriptions
+namespace companyAPI.Areas.HelpPage.ModelDescriptions
 {
     public class SimpleTypeModelDescription : ModelDescription
     {

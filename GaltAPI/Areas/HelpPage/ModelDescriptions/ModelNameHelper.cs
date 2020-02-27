@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
-namespace GaltAPI.Areas.HelpPage.ModelDescriptions
+namespace companyAPI.Areas.HelpPage.ModelDescriptions
 {
     internal static class ModelNameHelper
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace GaltAPI.Areas.HelpPage.ModelDescriptions
+namespace companyAPI.Areas.HelpPage.ModelDescriptions
 {
     /// <summary>
     /// Describes a type model.

@@ -11,10 +11,10 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
-using GaltAPI.Areas.HelpPage.ModelDescriptions;
-using GaltAPI.Areas.HelpPage.Models;
+using companyAPI.Areas.HelpPage.ModelDescriptions;
+using companyAPI.Areas.HelpPage.Models;
 
-namespace GaltAPI.Areas.HelpPage
+namespace companyAPI.Areas.HelpPage
 {
     public static class HelpPageConfigurationExtensions
     {

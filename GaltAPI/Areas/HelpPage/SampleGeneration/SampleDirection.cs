@@ -1,4 +1,4 @@
-namespace GaltAPI.Areas.HelpPage
+namespace companyAPI.Areas.HelpPage
 {
     /// <summary>
     /// Indicates whether the sample is used for request or response

@@ -3,7 +3,7 @@ using System.Text;
 using System.Web;
 using System.Web.Http.Description;
 
-namespace GaltAPI.Areas.HelpPage
+namespace companyAPI.Areas.HelpPage
 {
     public static class ApiDescriptionExtensions
     {

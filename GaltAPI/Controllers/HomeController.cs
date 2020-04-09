@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+// API Homepage
 namespace companyAPI.Controllers
 {
     public class HomeController : Controller

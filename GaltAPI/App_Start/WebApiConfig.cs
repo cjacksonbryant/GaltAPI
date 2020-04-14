@@ -10,7 +10,7 @@ namespace companyAPI
     {
         public static MySqlConnection conn()
         {
-            string conn_string = "server=pharmacylocatordatabase.cxl2fyczodk5.us-east-2.rds.amazonaws.com;port=3306;database=GaltPharmacies;username=admin;password=masterpass";
+            string conn_string = "server=chiefrxinstance-us-east-1b.cua0xdfndykf.us-east-1.rds.amazonaws.com;port=3306;database=chiefrxdatabase;username=capstoneUser1;password=Ro11T!de";
 
             MySqlConnection conn = new MySqlConnection(conn_string);
 
@@ -22,6 +22,12 @@ namespace companyAPI
 
             // Web API routes
             config.MapHttpAttributeRoutes();
+
+            config.Routes.MapHttpRoute(
+               name: "ActionAPI",
+               routeTemplate: "api/{controller}/{action}/{id}",
+               defaults: new { id = RouteParameter.Optional }
+           );
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

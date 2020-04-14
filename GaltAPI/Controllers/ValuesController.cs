@@ -10,35 +10,45 @@ namespace companyAPI.Controllers
 {
     public class results
     {
-        public string addressLine1 { get; set; }
-        public string addressLine2 { get; set; }
-        public string city { get; set; }
-        public string state { get; set; }
-        public string zip { get; set; }
-        public string addressType { get; set; }
-        public string error { get; set; }
+        public string PharmacyName { get; set; }
+        public string PharmacyType { get; set; }
+        public string StreetAddressLine1 { get; set; }
+        public string StreetAddressLine2 { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Zip { get; set; }
+        public string AddressType { get; set; }
+        public string Number { get; set; }
+        public string WebsiteURL { get; set; }
 
-        public results(string addressLine1, string addressLine2, string city, string state, string zip, string addressType, string error)
+        public results(string PharmacyName, string PharmacyType, string StreetAddressLine1, string StreetAddressLine2, string City, string State, string Zip, string AddressType, string Number, string WebsiteURL, string error)
         {
             
-            this.addressLine1 = addressLine1;
-            this.addressLine2 = addressLine2;
-            this.city = city;
-            this.state = state;
-            this.zip = zip;
-            this.addressType = addressType;
+            this.PharmacyName = PharmacyName;
+            this.PharmacyType = PharmacyType;
+            this.StreetAddressLine1 = StreetAddressLine1;
+            this.StreetAddressLine2 = StreetAddressLine2;
+            this.City = City;
+            this.State = State;
+            this.Zip = Zip;
+            this.AddressType = AddressType;
+            this.Number = Number;
+            this.WebsiteURL = WebsiteURL;
         }
     }
     public class ValuesController : ApiController
     {
-        // GET api/values
+        // GET api/values/
+        [HttpGet]
+        [Route("api/values")]
         public List<results> Get()
+        // Get all pharmacy information
         {
             MySqlConnection conn = WebApiConfig.conn();
 
             MySqlCommand query = conn.CreateCommand();
 
-            query.CommandText = "SELECT * FROM Address";
+            query.CommandText = "SELECT p.PharmacyName, p.PharmacyType, c.StreetAddressLine1, c.StreetAddressLine2, c.City, c.State, c.Zip, c.AddressType, c2.`Number`, p.WebsiteURL FROM Pharmacies p, CapstoneTable1 c, CapstoneTable2 c2 WHERE p.PharmacyID = c.PharmacyID AND p.PharmacyID = c2.PharmacyID AND c.AddressType = 'Physical Address' AND c2.NumberType = 'Phone Number';";
 
             var results = new List<results>();
 
@@ -49,160 +59,259 @@ namespace companyAPI.Controllers
 
             catch (MySql.Data.MySqlClient.MySqlException ex)
             {
-                results.Add(new results(null, null, null, null, null, null, ex.ToString()));
+                results.Add(new results(null, null, null, null, null, null, null, null, null, null, ex.ToString()));
             }
 
             MySqlDataReader fetch_query = query.ExecuteReader();
 
             while (fetch_query.Read())
             {
-                results.Add(new results(fetch_query["addressLine1"].ToString(), fetch_query["addressLine2"].ToString(), fetch_query["city"].ToString(), fetch_query["state"].ToString(), fetch_query["zip"].ToString(), fetch_query["addressType"].ToString(), null));
+                results.Add(new results(fetch_query["PharmacyName"].ToString(), fetch_query["PharmacyType"].ToString(), fetch_query["StreetAddressLine1"].ToString(), fetch_query["StreetAddressLine2"].ToString(), fetch_query["City"].ToString(), fetch_query["State"].ToString(), fetch_query["Zip"].ToString(), fetch_query["AddressType"].ToString(), fetch_query["Number"].ToString(), fetch_query["WebsiteURL"].ToString(),null));
+            }
+
+            return results;
+        }
+        // GET/api/values/direct
+        [HttpGet]
+        [Route("api/values/direct")]
+        public List<results> GetGaltDirect()
+        // Get all pharmacy information
+        {
+            MySqlConnection conn = WebApiConfig.conn();
+
+            MySqlCommand query = conn.CreateCommand();
+
+            query.CommandText = "SELECT p.PharmacyName, p.PharmacyType, c.StreetAddressLine1, c.StreetAddressLine2, c.City, c.State, c.Zip, c.AddressType, c2.`Number`, p.WebsiteURL FROM Pharmacies p, CapstoneTable1 c, CapstoneTable2 c2 WHERE p.PharmacyID = c.PharmacyID AND p.PharmacyID = c2.PharmacyID AND c.AddressType = 'Physical Address' AND c2.NumberType = 'Phone Number' AND p.PharmacyType = 'Galt Direct';";
+
+            var results = new List<results>();
+
+            try
+            {
+                conn.Open();
+            }
+
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                results.Add(new results(null, null, null, null, null, null, null, null, null, null, ex.ToString()));
+            }
+
+            MySqlDataReader fetch_query = query.ExecuteReader();
+
+            while (fetch_query.Read())
+            {
+                results.Add(new results(fetch_query["PharmacyName"].ToString(), fetch_query["PharmacyType"].ToString(), fetch_query["StreetAddressLine1"].ToString(), fetch_query["StreetAddressLine2"].ToString(), fetch_query["City"].ToString(), fetch_query["State"].ToString(), fetch_query["Zip"].ToString(), fetch_query["AddressType"].ToString(), fetch_query["Number"].ToString(), fetch_query["WebsiteURL"].ToString(), null));
+            }
+
+            return results;
+        }
+        // GET/api/values/hub
+        [HttpGet]
+        [Route("api/values/hub")]
+        public List<results> GetHub()
+        // Get all pharmacy information
+        {
+            MySqlConnection conn = WebApiConfig.conn();
+
+            MySqlCommand query = conn.CreateCommand();
+
+            query.CommandText = "SELECT p.PharmacyName, p.PharmacyType, c.StreetAddressLine1, c.StreetAddressLine2, c.City, c.State, c.Zip, c.AddressType, c2.`Number`, p.WebsiteURL FROM Pharmacies p, CapstoneTable1 c, CapstoneTable2 c2 WHERE p.PharmacyID = c.PharmacyID AND p.PharmacyID = c2.PharmacyID AND c.AddressType = 'Physical Address' AND c2.NumberType = 'Phone Number' AND p.PharmacyType = 'Hub';";
+
+            var results = new List<results>();
+
+            try
+            {
+                conn.Open();
+            }
+
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                results.Add(new results(null, null, null, null, null, null, null, null, null, null, ex.ToString()));
+            }
+
+            MySqlDataReader fetch_query = query.ExecuteReader();
+
+            while (fetch_query.Read())
+            {
+                results.Add(new results(fetch_query["PharmacyName"].ToString(), fetch_query["PharmacyType"].ToString(), fetch_query["StreetAddressLine1"].ToString(), fetch_query["StreetAddressLine2"].ToString(), fetch_query["City"].ToString(), fetch_query["State"].ToString(), fetch_query["Zip"].ToString(), fetch_query["AddressType"].ToString(), fetch_query["Number"].ToString(), fetch_query["WebsiteURL"].ToString(), null));
+            }
+
+            return results;
+        }
+        //GET/api/values/partner
+        [HttpGet]
+        [Route("api/values/partner")]
+        public List<results> GetPartnerPharmacy()
+        // Get all pharmacy information
+        {
+            MySqlConnection conn = WebApiConfig.conn();
+
+            MySqlCommand query = conn.CreateCommand();
+
+            query.CommandText = "SELECT p.PharmacyName, p.PharmacyType, c.StreetAddressLine1, c.StreetAddressLine2, c.City, c.State, c.Zip, c.AddressType, c2.`Number`, p.WebsiteURL FROM Pharmacies p, CapstoneTable1 c, CapstoneTable2 c2 WHERE p.PharmacyID = c.PharmacyID AND p.PharmacyID = c2.PharmacyID AND c.AddressType = 'Physical Address' AND c2.NumberType = 'Phone Number' AND p.PharmacyType = 'Partner Pharmacy';";
+
+            var results = new List<results>();
+
+            try
+            {
+                conn.Open();
+            }
+
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                results.Add(new results(null, null, null, null, null, null, null, null, null, null, ex.ToString()));
+            }
+
+            MySqlDataReader fetch_query = query.ExecuteReader();
+
+            while (fetch_query.Read())
+            {
+                results.Add(new results(fetch_query["PharmacyName"].ToString(), fetch_query["PharmacyType"].ToString(), fetch_query["StreetAddressLine1"].ToString(), fetch_query["StreetAddressLine2"].ToString(), fetch_query["City"].ToString(), fetch_query["State"].ToString(), fetch_query["Zip"].ToString(), fetch_query["AddressType"].ToString(), fetch_query["Number"].ToString(), fetch_query["WebsiteURL"].ToString(), null));
             }
 
             return results;
         }
 
         // GET api/values/56
-        public List<results> Get(int pharmacyID)
-        {
-            MySqlConnection conn = WebApiConfig.conn();
+        /* public List<results> Get(int pharmacyID)
+         {
+             MySqlConnection conn = WebApiConfig.conn();
 
-            MySqlCommand query = conn.CreateCommand();
+             MySqlCommand query = conn.CreateCommand();
 
-            query.CommandText = "SELECT addressLine1, addressLine2, city, state, zip, addressType FROM Address WHERE pharmacyID = @pharmacyID";
+             query.CommandText = "SELECT addressLine1, addressLine2, city, state, zip, addressType FROM Address WHERE pharmacyID = @pharmacyID";
 
-            query.Parameters.AddWithValue("@pharmacyID", pharmacyID);
+             query.Parameters.AddWithValue("@pharmacyID", pharmacyID);
 
-            var results = new List<results>();
+             var results = new List<results>();
 
-            try
-            {
-                conn.Open();
-            }
+             try
+             {
+                 conn.Open();
+             }
 
-            catch (MySql.Data.MySqlClient.MySqlException ex)
-            {
-                results.Add(new results(null, null, null, null, null, null, ex.ToString()));
-            }
+             catch (MySql.Data.MySqlClient.MySqlException ex)
+             {
+                 results.Add(new results(null, null, null, null, null, null, ex.ToString()));
+             }
 
-            MySqlDataReader fetch_query = query.ExecuteReader();
+             MySqlDataReader fetch_query = query.ExecuteReader();
 
-            while (fetch_query.Read())
-            {
-                results.Add(new results(fetch_query["addressLine1"].ToString(), fetch_query["addressLine2"].ToString(), fetch_query["city"].ToString(), fetch_query["state"].ToString(), fetch_query["zip"].ToString(), fetch_query["addressType"].ToString(), null));
-            }
+             while (fetch_query.Read())
+             {
+                 results.Add(new results(fetch_query["addressLine1"].ToString(), fetch_query["addressLine2"].ToString(), fetch_query["city"].ToString(), fetch_query["state"].ToString(), fetch_query["zip"].ToString(), fetch_query["addressType"].ToString(), null));
+             }
 
-            return results;
-        }
+             return results;
+         }
 
-        // POST api/values
-       /* [System.Web.Http.HttpPost]
-        public void Post([FromBody]string pharmacyName, string pharmacyAddress, string pharmacyCategory)
-        {
+         // POST api/values
+        /* [System.Web.Http.HttpPost]
+         public void Post([FromBody]string pharmacyName, string pharmacyAddress, string pharmacyCategory)
+         {
 
-            MySqlConnection conn = WebApiConfig.conn();
+             MySqlConnection conn = WebApiConfig.conn();
 
-            MySqlCommand query = conn.CreateCommand();
+             MySqlCommand query = conn.CreateCommand();
 
-            query.CommandText = "INSERT INTO locations (pharmacyName, pharmacyAddress, pharmacyCategory) VALUES (@pharmacyName, @pharmacyAddress, @pharmacyCategory)";
+             query.CommandText = "INSERT INTO locations (pharmacyName, pharmacyAddress, pharmacyCategory) VALUES (@pharmacyName, @pharmacyAddress, @pharmacyCategory)";
 
-            query.Parameters.AddWithValue("@pharmacyName", pharmacyName);
-            query.Parameters.AddWithValue("@pharmacyAddress", pharmacyAddress);
-            query.Parameters.AddWithValue("@pharmacyCategory", pharmacyCategory);
-
-
-            var results = new List<results>();
-
-            try
-            {
-                conn.Open();
-            }
-
-            catch (MySql.Data.MySqlClient.MySqlException ex)
-            {
-                results.Add(new results(null, null, null, ex.ToString()));
-            }
-
-            MySqlDataReader fetch_query = query.ExecuteReader();
-
-            while (fetch_query.Read())
-            {
-                results.Add(new results(fetch_query["pharmacyName"].ToString(), fetch_query["pharmacyAddress"].ToString(), fetch_query["pharmacyCategory"].ToString(), null));
-            }
+             query.Parameters.AddWithValue("@pharmacyName", pharmacyName);
+             query.Parameters.AddWithValue("@pharmacyAddress", pharmacyAddress);
+             query.Parameters.AddWithValue("@pharmacyCategory", pharmacyCategory);
 
 
-        }
+             var results = new List<results>();
 
-        // PUT api/values/5
-        public void Put(int id, [FromBody]string pharmacyName, string pharmacyAddress, string pharmacyCategory)
-        {
-            MySqlConnection conn = WebApiConfig.conn();
+             try
+             {
+                 conn.Open();
+             }
 
-            MySqlCommand query = conn.CreateCommand();
+             catch (MySql.Data.MySqlClient.MySqlException ex)
+             {
+                 results.Add(new results(null, null, null, ex.ToString()));
+             }
 
-            query.CommandText = "DELET pharmacyName, pharmacyAddress, pharmacyCategory FROM locations WHERE id = @id";
+             MySqlDataReader fetch_query = query.ExecuteReader();
 
-            query.Parameters.AddWithValue("@id", id);
-            query.Parameters.AddWithValue("@pharmacyName", pharmacyName);
-            query.Parameters.AddWithValue("@pharmacyAddress", pharmacyAddress);
-            query.Parameters.AddWithValue("@pharmacyCategory", pharmacyCategory);
+             while (fetch_query.Read())
+             {
+                 results.Add(new results(fetch_query["pharmacyName"].ToString(), fetch_query["pharmacyAddress"].ToString(), fetch_query["pharmacyCategory"].ToString(), null));
+             }
 
-            var results = new List<results>();
 
-            try
-            {
-                conn.Open();
-            }
+         }
 
-            catch (MySql.Data.MySqlClient.MySqlException ex)
-            {
-                results.Add(new results(null, null, null, ex.ToString()));
-            }
+         // PUT api/values/5
+         public void Put(int id, [FromBody]string pharmacyName, string pharmacyAddress, string pharmacyCategory)
+         {
+             MySqlConnection conn = WebApiConfig.conn();
 
-            MySqlDataReader fetch_query = query.ExecuteReader();
+             MySqlCommand query = conn.CreateCommand();
 
-            while (fetch_query.Read())
-            {
-                results.Add(new results(fetch_query["pharmacyName"].ToString(), fetch_query["pharmacyAddress"].ToString(), fetch_query["pharmacyCategory"].ToString(), null));
-            }
+             query.CommandText = "DELET pharmacyName, pharmacyAddress, pharmacyCategory FROM locations WHERE id = @id";
 
-        }
+             query.Parameters.AddWithValue("@id", id);
+             query.Parameters.AddWithValue("@pharmacyName", pharmacyName);
+             query.Parameters.AddWithValue("@pharmacyAddress", pharmacyAddress);
+             query.Parameters.AddWithValue("@pharmacyCategory", pharmacyCategory);
 
-        // DELETE api/values/5
-        [System.Web.Http.HttpDelete]
-        public void Delete(int id, string pharmacyName, string pharmacyAddress, string pharmacyCategory)
-        {
-            MySqlConnection conn = WebApiConfig.conn();
+             var results = new List<results>();
 
-            MySqlCommand query = conn.CreateCommand();
+             try
+             {
+                 conn.Open();
+             }
 
-            query.CommandText = "DELETE pharmacyName, pharmacyAddress, pharmacyCategory FROM locations WHERE id = @id";
+             catch (MySql.Data.MySqlClient.MySqlException ex)
+             {
+                 results.Add(new results(null, null, null, ex.ToString()));
+             }
 
-            query.Parameters.AddWithValue("@id", id);
-            query.Parameters.AddWithValue("@pharmacyName", pharmacyName);
-            query.Parameters.AddWithValue("@pharmacyAddress", pharmacyAddress);
-            query.Parameters.AddWithValue("@pharmacyCategory", pharmacyCategory);
+             MySqlDataReader fetch_query = query.ExecuteReader();
 
-            var results = new List<results>();
+             while (fetch_query.Read())
+             {
+                 results.Add(new results(fetch_query["pharmacyName"].ToString(), fetch_query["pharmacyAddress"].ToString(), fetch_query["pharmacyCategory"].ToString(), null));
+             }
 
-            try
-            {
-                conn.Open();
-            }
+         }
 
-            catch (MySql.Data.MySqlClient.MySqlException ex)
-            {
-                results.Add(new results(null, null, null, ex.ToString()));
-            }
+         // DELETE api/values/5
+         [System.Web.Http.HttpDelete]
+         public void Delete(int id, string pharmacyName, string pharmacyAddress, string pharmacyCategory)
+         {
+             MySqlConnection conn = WebApiConfig.conn();
 
-            MySqlDataReader fetch_query = query.ExecuteReader();
+             MySqlCommand query = conn.CreateCommand();
 
-            while (fetch_query.Read())
-            {
-                results.Add(new results(fetch_query["pharmacyName"].ToString(), fetch_query["pharmacyAddress"].ToString(), fetch_query["pharmacyCategory"].ToString(), null));
-            }
+             query.CommandText = "DELETE pharmacyName, pharmacyAddress, pharmacyCategory FROM locations WHERE id = @id";
 
-           
-        } */
+             query.Parameters.AddWithValue("@id", id);
+             query.Parameters.AddWithValue("@pharmacyName", pharmacyName);
+             query.Parameters.AddWithValue("@pharmacyAddress", pharmacyAddress);
+             query.Parameters.AddWithValue("@pharmacyCategory", pharmacyCategory);
+
+             var results = new List<results>();
+
+             try
+             {
+                 conn.Open();
+             }
+
+             catch (MySql.Data.MySqlClient.MySqlException ex)
+             {
+                 results.Add(new results(null, null, null, ex.ToString()));
+             }
+
+             MySqlDataReader fetch_query = query.ExecuteReader();
+
+             while (fetch_query.Read())
+             {
+                 results.Add(new results(fetch_query["pharmacyName"].ToString(), fetch_query["pharmacyAddress"].ToString(), fetch_query["pharmacyCategory"].ToString(), null));
+             }
+
+
+         } */
     }
 }

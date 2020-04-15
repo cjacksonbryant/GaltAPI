@@ -8,6 +8,7 @@ using MySql.Data.MySqlClient;
 
 namespace companyAPI.Controllers
 {
+    // Pharmacy results object
     public class results
     {
         public string PharmacyName { get; set; }
@@ -41,17 +42,23 @@ namespace companyAPI.Controllers
         // GET api/values/
         [HttpGet]
         [Route("api/values")]
+        // Query that populates all pharmacy location markers and pharmacy information
+        // GET api/values
         public List<results> Get()
         // Get all pharmacy information
         {
+            // Opens MySQL Connection
             MySqlConnection conn = WebApiConfig.conn();
 
+            // Enables command entry and creates a new command object
             MySqlCommand query = conn.CreateCommand();
 
             query.CommandText = "SELECT p.PharmacyName, p.PharmacyType, c.StreetAddressLine1, c.StreetAddressLine2, c.City, c.State, c.Zip, c.AddressType, c2.`Number`, p.WebsiteURL FROM Pharmacies p, CapstoneTable1 c, CapstoneTable2 c2 WHERE p.PharmacyID = c.PharmacyID AND p.PharmacyID = c2.PharmacyID AND c.AddressType = 'Physical Address' AND c2.NumberType = 'Phone Number';";
 
+            // Enters results into a list
             var results = new List<results>();
 
+            // Error handling for unestablished connection to database
             try
             {
                 conn.Open();
@@ -62,13 +69,16 @@ namespace companyAPI.Controllers
                 results.Add(new results(null, null, null, null, null, null, null, null, null, null, ex.ToString()));
             }
 
+            // Reads data
             MySqlDataReader fetch_query = query.ExecuteReader();
 
+            // Adds data to 'results' list
             while (fetch_query.Read())
             {
                 results.Add(new results(fetch_query["PharmacyName"].ToString(), fetch_query["PharmacyType"].ToString(), fetch_query["StreetAddressLine1"].ToString(), fetch_query["StreetAddressLine2"].ToString(), fetch_query["City"].ToString(), fetch_query["State"].ToString(), fetch_query["Zip"].ToString(), fetch_query["AddressType"].ToString(), fetch_query["Number"].ToString(), fetch_query["WebsiteURL"].ToString(),null));
             }
 
+            // Results object is returned with all necessary values
             return results;
         }
         // GET/api/values/direct
